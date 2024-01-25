@@ -1,7 +1,9 @@
 package com.deceptiveb.movies.service.impl;
 
 import com.deceptiveb.movies.exception.ResourceNotFoundException;
+import com.deceptiveb.movies.mapper.appuser.ListAppUserResponseMapper;
 import com.deceptiveb.movies.model.AppUser;
+import com.deceptiveb.movies.payload.appuser.ListAppUserResponse;
 import com.deceptiveb.movies.repository.AppUserRepo;
 import com.deceptiveb.movies.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +12,16 @@ import org.springframework.data.domain.Pageable;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AppUserServiceImplementation implements AppUserService {
 
     @Autowired
     private AppUserRepo userRepo;
+
+    @Autowired
+    private ListAppUserResponseMapper userMapper;
+
     @Override
     public AppUser getUserById(Integer id) {
         return userRepo.findById(id).orElseThrow(()
@@ -22,9 +29,12 @@ public class AppUserServiceImplementation implements AppUserService {
     }
 
     @Override
-    public List<AppUser> findAll(int page,int size) {
+    public List<ListAppUserResponse> findAll(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return userRepo.findAll(pageable);
+        return userRepo.findAll(pageable)
+                .stream()
+                .map(userMapper)
+                .collect(Collectors.toList());
     }
 
 
