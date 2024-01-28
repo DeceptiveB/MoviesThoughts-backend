@@ -50,21 +50,19 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(Integer id, String name, String argument, String director, Double rate, LocalDate releaseDate, List<Genre> genres) {
+    public Movie(Integer id, String name, String argument, String director, LocalDate releaseDate, List<Genre> genres) {
         this.id = id;
         this.name = name;
         this.argument = argument;
         this.director = director;
-        this.rate = rate;
         this.releaseDate = releaseDate;
         this.genres = genres;
     }
 
-    public Movie(String name, String argument, String director, Double rate, LocalDate releaseDate, List<Genre> genres) {
+    public Movie(String name, String argument, String director, LocalDate releaseDate, List<Genre> genres) {
         this.name = name;
         this.argument = argument;
         this.director = director;
-        this.rate = rate;
         this.releaseDate = releaseDate;
         this.genres = genres;
     }
