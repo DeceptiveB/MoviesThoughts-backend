@@ -25,7 +25,7 @@ public class Movie {
     private String name;
 
     @NotBlank
-    @Size(max = 80)
+    @Size(max = 200)
     private String argument;
 
     @NotBlank
@@ -46,6 +46,11 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
     private List<Genre> genres;
+
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "movie",
+            cascade = CascadeType.ALL)
+    private List<Post> posts;
 
     public Movie() {
     }

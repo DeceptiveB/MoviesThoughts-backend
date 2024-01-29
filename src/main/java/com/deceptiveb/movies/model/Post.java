@@ -1,7 +1,7 @@
 package com.deceptiveb.movies.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -24,10 +24,18 @@ public class Post {
     @NotBlank
     private String content;
 
+    @DecimalMax("10.0") @DecimalMin("0.0")
+    private double rate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private AppUser appUser;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Movie movie;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments;
@@ -35,16 +43,19 @@ public class Post {
     public Post() {
     }
 
-    public Post(String content, AppUser appUser) {
+    public Post(String content, AppUser appUser, Movie movie, double rate) {
         this.content = content;
         this.appUser = appUser;
+        this.movie = movie;
+        this.rate = rate;
     }
 
-    public Post(Integer id, String content, AppUser appUser, List<Comment> comments) {
+    public Post(Integer id, String content, AppUser appUser, Movie movie, double rate) {
         this.id = id;
         this.content = content;
         this.appUser = appUser;
-        this.comments = comments;
+        this.movie = movie;
+        this.rate = rate;
     }
 
     public Integer getId() {

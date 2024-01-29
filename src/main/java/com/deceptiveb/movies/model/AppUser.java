@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.List;
+
 @Entity
 @Table
 public class AppUser {
@@ -25,6 +27,11 @@ public class AppUser {
     @NotBlank
     @Email
     private String email;
+
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "appUser",
+            cascade = CascadeType.ALL)
+    private List<Post> posts;
 
     public AppUser() {
     }
