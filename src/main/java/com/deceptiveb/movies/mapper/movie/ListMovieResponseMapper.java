@@ -11,6 +11,7 @@ public class ListMovieResponseMapper implements Function<Movie, ListMovieRespons
     @Override
     public ListMovieResponse apply(Movie movie) {
         return new ListMovieResponse(
+                movie.getId(),
                 movie.getName(),
                 movie.getDirector(),
                 movie.getReleaseDate()

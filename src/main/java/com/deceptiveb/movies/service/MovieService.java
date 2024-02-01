@@ -9,4 +9,5 @@ public interface MovieService {
     List<ListMovieResponse> getMovies(int page, int size);
 
     MovieResponse getMovieById(Integer id);
+
 }
