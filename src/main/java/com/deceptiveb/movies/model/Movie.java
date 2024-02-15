@@ -31,7 +31,7 @@ public class Movie {
     @NotBlank
     private String director;
 
-    @Transient
+
     private Double rate;
 
     @Column(

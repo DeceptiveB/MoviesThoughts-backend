@@ -2,8 +2,11 @@ package com.deceptiveb.movies.service.impl;
 
 import com.deceptiveb.movies.exception.ResourceNotFoundException;
 import com.deceptiveb.movies.mapper.movie.ListMovieResponseMapper;
+import com.deceptiveb.movies.mapper.movie.MovieRequestMapper;
 import com.deceptiveb.movies.mapper.movie.MovieResponseMapper;
+import com.deceptiveb.movies.model.Movie;
 import com.deceptiveb.movies.payload.movie.ListMovieResponse;
+import com.deceptiveb.movies.payload.movie.MovieRequest;
 import com.deceptiveb.movies.payload.movie.MovieResponse;
 import com.deceptiveb.movies.repository.MovieRepo;
 import com.deceptiveb.movies.service.MovieService;
@@ -26,6 +29,9 @@ public class MovieServiceImplementation implements MovieService {
     private MovieResponseMapper movieResponseMapper;
 
     @Autowired
+    private MovieRequestMapper movieRequestMapper;
+
+    @Autowired
     private ListMovieResponseMapper listMovieResponseMapper;
 
     @Override
@@ -43,6 +49,11 @@ public class MovieServiceImplementation implements MovieService {
                 .map(movieResponseMapper)
                 .orElseThrow(()
                         -> new ResourceNotFoundException("movie", "id", id));
+    }
+
+    @Override
+    public Movie saveMovie(MovieRequest movieRequest) {
+        return movieRepo.save(movieRequestMapper.apply(movieRequest));
     }
 
 }
