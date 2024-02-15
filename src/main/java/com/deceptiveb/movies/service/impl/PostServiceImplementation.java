@@ -2,8 +2,11 @@ package com.deceptiveb.movies.service.impl;
 
 import com.deceptiveb.movies.exception.ResourceNotFoundException;
 import com.deceptiveb.movies.mapper.post.PostListResponseMapper;
+import com.deceptiveb.movies.mapper.post.PostRequestMapper;
 import com.deceptiveb.movies.mapper.post.PostResponseMapper;
+import com.deceptiveb.movies.model.Post;
 import com.deceptiveb.movies.payload.post.PostListResponse;
+import com.deceptiveb.movies.payload.post.PostRequest;
 import com.deceptiveb.movies.payload.post.PostResponse;
 import com.deceptiveb.movies.repository.PostRepo;
 import com.deceptiveb.movies.service.PostService;
@@ -24,14 +27,18 @@ public class PostServiceImplementation implements PostService {
     private PostResponseMapper postResponseMapper;
     private PostListResponseMapper postListResponseMapper;
 
+    private final PostRequestMapper postRequestMapper;
+
     @Autowired
     public PostServiceImplementation(
             PostRepo postRepo,
             PostResponseMapper postResponseMapper,
-            PostListResponseMapper postListResponseMapper) {
+            PostListResponseMapper postListResponseMapper,
+            PostRequestMapper postRequestMapper) {
         this.postRepo = postRepo;
         this.postResponseMapper = postResponseMapper;
         this.postListResponseMapper = postListResponseMapper;
+        this.postRequestMapper = postRequestMapper;
     }
     @Override
     public PostResponse getPostById(Integer id) {
@@ -46,6 +53,12 @@ public class PostServiceImplementation implements PostService {
         return postRepo.findAll(pageable)
                 .stream().map(postListResponseMapper)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Post savePost(PostRequest postRequest) {
+        Post post = postRequestMapper.apply(postRequest);
+        return postRepo.save(post);
     }
 
 
